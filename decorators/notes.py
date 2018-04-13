@@ -1,10 +1,9 @@
 s= "GLOBAL VARIABLE!"
 
 def func():
-    global s
-    s = 50
-    print(s)
+    mylocal = 10
+    # print(locals())
+    print(globals()['s'])
 
 
 func()
-print(s)
