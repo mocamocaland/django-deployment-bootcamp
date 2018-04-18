@@ -1,13 +1,15 @@
-from django.shortcuts import render
 from django.contrib import messages
-# Create your views here.
-from django.contrib.auth.mixins import (LoginRequiredMixin,
-                                        PermissionRequiredMixin)
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin
+)
 
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.views import generic
 from django.shortcuts import get_object_or_404
 from groups.models import Group, GroupMember
+from . import models
 
 
 class CreateGroup(LoginRequiredMixin, generic.CreateView):
@@ -25,10 +27,10 @@ class JoinGroup(LoginRequiredMixin, generic.RedirectView):
     
     def get_redirect_url(self, *args, **kwargs):
         return reverse('groups:single', kwargs={'slug':self.kwargs.get('slug')})
-
-    def get(self, request, #args, *kwargs):
+    
+    def get(self, request, *args, **kwargs):
         group = get_object_or_404(Group, slug=self.kwargs.get('slug'))
-        
+
         try:
             GroupMember.objects.create(user=self.request.user, group=group)
         except IntegrityError:
