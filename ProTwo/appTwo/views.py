@@ -1,5 +1,5 @@
 from django.shortcuts import render
-# from django.http import HttpResponse
+from django.http import HttpResponse
 # from appTwo.models import User
 from appTwo.forms import NewUserForm
 # Create your views here.
@@ -21,4 +21,9 @@ def users(request):
             print('ERROR FORM INVALID')
 
     return render(request, 'apptwo/users.html', {'form': form})
+
+
+def help(request):
+    helpdict = {'help_insert': 'HELP PAGE'}
+    return render(request, 'apptwo/help.html', context=helpdict)
 
